@@ -4,7 +4,10 @@ use warnings;
 use LWP::Simple;
 use XML::XPath;
 
-my $contact_names = `echo 'tell application "Adium" to return display name of every contact of every account of service "Jabber"' | osascript`;
+my $get_contacts = q{tell application "Adium" to return display name of every}
+                 . q{ contact of account id (id of the first account of}
+                 . q{ service "Jabber" whose host is "ksu.edu")};
+my $contact_names = `echo '$get_contacts' | osascript`;
 chomp $contact_names;
 my @contact_names = split(/,\ ?/,$contact_names);
 
