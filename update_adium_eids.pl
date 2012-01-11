@@ -29,6 +29,8 @@ for my $id (@contact_names) {
         }
         print "$id = $first $last\n";
         
+        $id = $id . '@ksu.edu';
+        
         my $script = q{tell application "Adium" to set the display name of every contact }
                 . qq{whose name is "$id" to "$first $last" };
         print $script, "\n";
