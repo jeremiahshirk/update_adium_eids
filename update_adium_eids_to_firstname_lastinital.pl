@@ -25,10 +25,10 @@ for my $id (@contact_names) {
         my $xp = XML::XPath->new( xml => $eid_xml );
         
         my ($first, $last, $lastinitial);
-        $first = $xp->getNodeText('/results/result/pref/fn')->value();
-        $first = $xp->getNodeText('/results/result/fn')->value() unless $first;
-        $last = $xp->getNodeText('/results/result/pref/ln')->value();
-        $last = $xp->getNodeText('/results/result/ln')->value() unless $last;
+        $first = $xp->getNodeText('/results/result[@order="0"]/pref/fn')->value();
+        $first = $xp->getNodeText('/results/result[@order="0"]/fn')->value() unless $first;
+        $last = $xp->getNodeText('/results/result[@order="0"]/pref/ln')->value();
+        $last = $xp->getNodeText('/results/result[@order="0"]/ln')->value() unless $last;
         if ($first eq '' and $last eq '') {
             print "Didn't find any names, aborting.\n";
             next;
