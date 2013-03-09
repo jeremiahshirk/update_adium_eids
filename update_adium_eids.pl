@@ -15,14 +15,14 @@ for my $id (@contact_names) {
     $id =~ s{\@ksu\.edu}{};
     if ($id =~ /^[a-z][a-z0-9]+$/) {
         print "Processing eID $id...\n";
-        my $eid_xml = get('http://search.k-state.edu/People/eid/' . $id);
+        my $eid_xml = get('http://search.k-state.edu/People/filter/eid=' . $id);
         my $xp = XML::XPath->new( xml => $eid_xml );
         
         my ($first, $last);
-        $first = $xp->getNodeText('/results/result/pref/fn')->value();
-        $first = $xp->getNodeText('/results/result/fn')->value() unless $first;
-        $last = $xp->getNodeText('/results/result/pref/ln')->value();
-        $last = $xp->getNodeText('/results/result/ln')->value() unless $last;
+        $first = $xp->getNodeText('/results/result[@order="0"]/pref/fn')->value();
+        $first = $xp->getNodeText('/results/result[@order="0"]/fn')->value() unless $first;
+        $last = $xp->getNodeText('/results/result[@order="0"]/pref/ln')->value();
+        $last = $xp->getNodeText('/results/result[@order="0"]/ln')->value() unless $last;
         if ($first eq '' and $last eq '') {
             print "Didn't find any names, aborting.\n";
             next;
@@ -36,6 +36,6 @@ for my $id (@contact_names) {
         print $script, "\n";
         open my $fh, "|-", "osascript";
         print $fh "$script\n";
-        close $fh
+        close $fh;
     }
 }
